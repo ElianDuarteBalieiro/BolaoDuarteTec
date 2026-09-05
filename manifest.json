@@ -1,0 +1,21 @@
+{
+  "name": "Bolão DuarteTec",
+  "short_name": "DuarteTec",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "icons": [
+    {
+      "src": "logo-duarte-tec.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-duarte-tec.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
