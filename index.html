@@ -34,7 +34,7 @@
 
         .nav-tabs { display: flex; margin-bottom: 16px; background: var(--card-bg); border-radius: var(--radius-padrao); overflow-x: auto; border: 1px solid var(--border-color); padding: 4px; gap: 4px; scrollbar-width: none; }
         .nav-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn { flex: 1; min-width: 82px; padding: 10px 6px; background: transparent; color: var(--text-muted); border: none; cursor: pointer; font-weight: 600; font-size: 11px; transition: all 0.25s ease; border-radius: 10px; text-align: center; }
+        .tab-btn { flex: 0 0 auto; min-width: 72px; padding: 10px 8px; background: transparent; color: var(--text-muted); border: none; cursor: pointer; font-weight: 600; font-size: 11px; transition: all 0.25s ease; border-radius: 10px; text-align: center; }
         .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 2px 10px rgba(229, 9, 20, 0.4); }
 
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-padrao); padding: 20px 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: fadeIn 0.3s ease; }
@@ -61,10 +61,7 @@
 
         .btn-main { background-color: var(--primary); color: #fff; border: none; padding: 14px; border-radius: var(--radius-input); font-weight: 700; width: 100%; cursor: pointer; font-size: 14px; text-transform: uppercase; }
         .btn-secundary { background: #27272a; color: #fff; border: none; padding: 10px 12px; border-radius: var(--radius-input); cursor: pointer; font-size: 11px; font-weight: 600; }
-        .btn-whatsapp { display: block; background-color: var(--whatsapp); color: white; padding: 14px; text-decoration: none; border-radius: var(--radius-input); font-weight: 700; text-align: center; margin-bottom: 12px; }
         .btn-outline { background: transparent; border: 1px solid #52525b; color: var(--text-muted); padding: 10px; border-radius: var(--radius-input); cursor: pointer; width: 100%; font-weight: 600; }
-        
-        .pix-container { background-color: #121214; border: 1px dashed rgba(0, 255, 102, 0.4); border-radius: var(--radius-padrao); padding: 14px; text-align: center; margin-bottom: 16px; }
 
         .jogo-ativo-card { background: var(--input-bg); border: 1px solid var(--info); border-radius: var(--radius-padrao); padding: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
         .jogo-ativo-card:hover { background: #2a2a2e; }
@@ -81,9 +78,7 @@
         th { background: #1c1c20; color: var(--text-muted); font-size: 10px; }
 
         .badge { padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; text-transform: uppercase; }
-        .badge-pendente { background: rgba(255, 204, 0, 0.15); color: var(--warning); }
         .badge-confirmado { background: rgba(0, 255, 102, 0.15); color: var(--success); }
-        .badge-cancelado { background: rgba(229, 9, 20, 0.15); color: var(--primary); }
         .badge-vencedor { background: var(--success); color: #000; box-shadow: 0 0 10px rgba(0,255,102,0.4); }
 
         .jogo-card-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: var(--radius-padrao); padding: 12px; margin-bottom: 10px; }
@@ -100,11 +95,16 @@
         <button class="tab-btn" id="btnTabTransparencia" onclick="mudarAba('transparencia')">Painel 📊</button>
         <button class="tab-btn" id="btnTabConsultar" onclick="mudarAba('consultar')">Consultar 🔍</button>
         <button class="tab-btn" id="btnTabJogos" onclick="mudarAba('jogos')">Jogos ⚽</button>
+        <button class="tab-btn" id="btnTabTabelas" onclick="mudarAba('tabelas')">Tabelas 🏆</button>
         <button class="tab-btn" id="btnTabAdmin" onclick="mudarAba('admin')">Banca 🔒</button>
     </div>
 
     <!-- 1. ÁREA DO APOSTADOR -->
     <div id="areaApostador" class="card">
+        <a href="app-bolao.apk" download="BolaoDuarteTec.apk" class="btn-main" style="background: var(--info); color: #000; text-decoration: none; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 16px;">
+            📲 Baixar e Instalar App (APK)
+        </a>
+
         <div class="header">
             <img src="logo-duarte-tec.png" alt="Duarte Tec" class="app-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg';">
             <h1>Bolão DuarteTec</h1>
@@ -112,7 +112,6 @@
             <span class="regra-minuscula">Faça seu palpite 100% grátis e participe!</span>
         </div>
 
-        <!-- LISTA DE JOGOS DISPONÍVEIS -->
         <div id="listaJogosParaApostar">
             <h3 style="font-size: 13px; text-align: center; color: var(--text-muted);">Selecione um jogo para palpitar:</h3>
             <div id="containerJogosAtivos" style="margin-top: 10px;">
@@ -120,7 +119,6 @@
             </div>
         </div>
 
-        <!-- FORMULÁRIO DE APOSTA -->
         <div id="formApostaContainer" style="display: none;">
             <button class="btn-secundary" style="margin-bottom: 12px; width: 100%;" onclick="voltarListaJogos()">⬅️ Voltar para lista de jogos</button>
             
@@ -155,7 +153,6 @@
             </form>
         </div>
 
-        <!-- ÁREA DO RECIBO / CONFIRMAÇÃO -->
         <div id="areaRecibo" style="display:none; text-align:center; margin-top:10px;">
             <h3 style="color:var(--success);" id="statusReciboTitulo">🎉 Palpite Registrado com Sucesso!</h3>
             <p style="font-size:12px; color:var(--text-muted);">Guarde o número do seu recibo abaixo:</p>
@@ -212,7 +209,26 @@
         </div>
     </div>
 
-    <!-- 5. PAINEL ADMIN (BANCA) -->
+    <!-- 5. TABELAS E CONFRONTOS -->
+    <div id="areaTabelas" class="card" style="display: none;">
+        <div class="header"><h1 style="color: var(--success);">Tabelas & Confrontos 🏆</h1></div>
+        <div class="form-group">
+            <label>Escolha o Campeonato:</label>
+            <select id="selectCompeticaoTabela" onchange="carregarTabelaCompeticao(this.value)">
+                <option value="71">Brasileirão Série A 2026 (Tabela)</option>
+                <option value="72">Brasileirão Série B (Tabela)</option>
+                <option value="73">Copa do Brasil (Próximos Confrontos)</option>
+                <option value="13">Copa Libertadores (Próximos Confrontos)</option>
+                <option value="11">Copa Sul-Americana (Próximos Confrontos)</option>
+                <option value="2">Champions League (Próximos Confrontos)</option>
+            </select>
+        </div>
+        <div id="conteudoTabelaConfrontos" style="margin-top: 15px;">
+            <p style="text-align: center; color: var(--text-muted);">Selecione uma competição acima.</p>
+        </div>
+    </div>
+
+    <!-- 6. PAINEL ADMIN (BANCA) -->
     <div id="areaAdmin" class="card" style="display: none;">
         <div id="loginAdmin">
             <div class="header"><h1>Painel da Banca 🔒</h1></div>
@@ -226,12 +242,14 @@
                 <button class="btn-secundary" onclick="sairAdmin()">Sair</button>
             </div>
 
-            <!-- ADICIONAR NOVO JOGO -->
             <div style="background: rgba(0, 204, 255, 0.05); padding: 14px; border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--border-color);">
                 <h3 style="margin-top:0; font-size:13px; color:var(--info);">➕ Adicionar Novo Jogo</h3>
                 <button id="btnBuscarJogos" class="btn-secundary" style="width: 100%; margin-bottom: 8px;" onclick="buscarJogosDaAPI()">
                     ⬇️ Buscar Jogos da API (Hoje)
                 </button>
+                
+                <input type="text" id="inputBuscaAPI" placeholder="🔍 Digite o time ou campeonato..." oninput="filtrarJogosAPI()" style="margin-bottom: 8px; display: none;">
+
                 <select id="selectJogosAPI" style="margin-bottom: 8px; display: none;" onchange="selecionarJogoAPI(this.value)">
                     <option value="">-- Selecione o Jogo --</option>
                 </select>
@@ -246,7 +264,6 @@
             <h3 style="font-size:13px; color:var(--warning);">📋 Jogos Ativos no Bolão</h3>
             <div id="listaJogosAdmin" style="margin-bottom: 20px;"></div>
 
-            <!-- ESTATÍSTICAS E TABELA GERAL -->
             <select id="selectJogoAdminTabela" onchange="atualizarTabelaAdmin()" style="margin-bottom: 10px;">
                 <option value="TODOS">Ver Todos os Palpites</option>
             </select>
@@ -268,7 +285,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp, getDocs, query, where, orderBy, setDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyBTabL7NOHKBQtKqPv9GBpYCOSTUnsfji8",
@@ -282,15 +299,39 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     
-    // CONFIGURAÇÕES DA BANCA
     const SENHA_BANCA = "chefe123";
     const LOGO_PADRAO = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg";
     const CHAVE_API_SPORTS = "6a693da098de4ef796827ef7c7ce87d2";
+
+    // Dados oficiais da Série A 2026 integrados
+    const tabelaSerieA2026 = [
+        { rank: 1, team: { name: "Flamengo", logo: "https://media.api-sports.io/football/teams/127.png" }, points: 57, all: { played: 27, win: 17, draw: 6, lose: 4 }, goalsDiff: 31 },
+        { rank: 2, team: { name: "Palmeiras", logo: "https://media.api-sports.io/football/teams/121.png" }, points: 56, all: { played: 27, win: 16, draw: 8, lose: 3 }, goalsDiff: 26 },
+        { rank: 3, team: { name: "Athletico-PR", logo: "https://media.api-sports.io/football/teams/134.png" }, points: 46, all: { played: 27, win: 13, draw: 7, lose: 7 }, goalsDiff: 10 },
+        { rank: 4, team: { name: "Bahia", logo: "https://media.api-sports.io/football/teams/118.png" }, points: 46, all: { played: 27, win: 12, draw: 10, lose: 5 }, goalsDiff: 9 },
+        { rank: 5, team: { name: "Fluminense", logo: "https://media.api-sports.io/football/teams/124.png" }, points: 45, all: { played: 27, win: 12, draw: 9, lose: 6 }, goalsDiff: 6 },
+        { rank: 6, team: { name: "Cruzeiro", logo: "https://media.api-sports.io/football/teams/125.png" }, points: 42, all: { played: 27, win: 12, draw: 6, lose: 9 }, goalsDiff: 0 },
+        { rank: 7, team: { name: "Atlético-MG", logo: "https://media.api-sports.io/football/teams/1062.png" }, points: 39, all: { played: 26, win: 11, draw: 6, lose: 9 }, goalsDiff: 4 },
+        { rank: 8, team: { name: "Coritiba", logo: "https://media.api-sports.io/football/teams/132.png" }, points: 38, all: { played: 27, win: 10, draw: 8, lose: 9 }, goalsDiff: -1 },
+        { rank: 9, team: { name: "Bragantino", logo: "https://media.api-sports.io/football/teams/794.png" }, points: 36, all: { played: 26, win: 10, draw: 6, lose: 10 }, goalsDiff: 3 },
+        { rank: 10, team: { name: "Santos", logo: "https://media.api-sports.io/football/teams/126.png" }, points: 35, all: { played: 26, win: 9, draw: 8, lose: 9 }, goalsDiff: 0 },
+        { rank: 11, team: { name: "Botafogo", logo: "https://media.api-sports.io/football/teams/120.png" }, points: 35, all: { played: 27, win: 9, draw: 8, lose: 10 }, goalsDiff: -2 },
+        { rank: 12, team: { name: "São Paulo", logo: "https://media.api-sports.io/football/teams/126.png" }, points: 33, all: { played: 26, win: 9, draw: 6, lose: 11 }, goalsDiff: 1 },
+        { rank: 13, team: { name: "EC Vitória", logo: "https://media.api-sports.io/football/teams/133.png" }, points: 33, all: { played: 27, win: 9, draw: 6, lose: 12 }, goalsDiff: -12 },
+        { rank: 14, team: { name: "Corinthians", logo: "https://media.api-sports.io/football/teams/131.png" }, points: 32, all: { played: 27, win: 8, draw: 8, lose: 11 }, goalsDiff: -1 },
+        { rank: 15, team: { name: "Mirassol", logo: "https://media.api-sports.io/football/teams/1243.png" }, points: 29, all: { played: 27, win: 7, draw: 8, lose: 12 }, goalsDiff: -11 },
+        { rank: 16, team: { name: "Grêmio", logo: "https://media.api-sports.io/football/teams/130.png" }, points: 28, all: { played: 27, win: 7, draw: 7, lose: 13 }, goalsDiff: -8 },
+        { rank: 17, team: { name: "Vasco da Gama", logo: "https://media.api-sports.io/football/teams/133.png" }, points: 28, all: { played: 26, win: 7, draw: 7, lose: 12 }, goalsDiff: -12 },
+        { rank: 18, team: { name: "Internacional", logo: "https://media.api-sports.io/football/teams/119.png" }, points: 28, all: { played: 27, win: 6, draw: 10, lose: 11 }, goalsDiff: -5 },
+        { rank: 19, team: { name: "Remo", logo: "https://media.api-sports.io/football/teams/133.png" }, points: 23, all: { played: 27, win: 5, draw: 8, lose: 14 }, goalsDiff: -14 },
+        { rank: 20, team: { name: "Chapecoense", logo: "https://media.api-sports.io/football/teams/123.png" }, points: 17, all: { played: 26, win: 3, draw: 8, lose: 15 }, goalsDiff: -24 }
+    ];
 
     let apostasGlobais = [];
     let jogosAtivosGlobais = [];
     let jogoSelecionadoParaAposta = null; 
     let tempApiData = {};
+    let jogosAPI = [];
 
     // ESCUTAR JOGOS ATIVOS
     onSnapshot(collection(db, "jogos_ativos"), (snapshot) => {
@@ -317,8 +358,8 @@
         }
     });
 
-    window.mudarAba = function(aba) {
-        const abas = ["Apostador", "Transparencia", "Consultar", "Jogos", "Admin"];
+    function mudarAba(aba) {
+        const abas = ["Apostador", "Transparencia", "Consultar", "Jogos", "Tabelas", "Admin"];
         abas.forEach(a => {
             const btn = document.getElementById(`btnTab${a}`);
             const area = document.getElementById(`area${a}`);
@@ -327,10 +368,14 @@
         });
         
         const abaAtual = aba.charAt(0).toUpperCase() + aba.slice(1);
-        document.getElementById(`btnTab${abaAtual}`).classList.add("active");
-        document.getElementById(`area${abaAtual}`).style.display = "block";
+        const btnAtual = document.getElementById(`btnTab${abaAtual}`);
+        const areaAtual = document.getElementById(`area${abaAtual}`);
+        
+        if (btnAtual) btnAtual.classList.add("active");
+        if (areaAtual) areaAtual.style.display = "block";
 
         if (aba === 'jogos') carregarJogosAPI();
+        if (aba === 'tabelas') carregarTabelaCompeticao(document.getElementById("selectCompeticaoTabela").value);
         if (aba === 'apostador') voltarListaJogos();
     }
 
@@ -351,9 +396,9 @@
                 <div class="jogo-ativo-card" onclick="${isFechado ? '' : `abrirFormularioAposta('${j.id}')`}" style="${isFechado ? 'opacity: 0.6; cursor:not-allowed;' : ''}">
                     <div class="jogo-ativo-header">${j.campeonato}</div>
                     <div class="jogo-placar-body">
-                        <div class="team-box"><img src="${j.logo1 || LOGO_PADRAO}" class="team-logo"><span class="team-label">${j.time1}</span></div>
+                        <div class="team-box"><img src="${j.logo1 || LOGO_PADRAO}" class="team-logo" onerror="this.src='${LOGO_PADRAO}'"><span class="team-label">${j.time1}</span></div>
                         <div style="font-weight:900; font-size:18px; color:var(--text-muted); margin: 0 10px;">X</div>
-                        <div class="team-box"><img src="${j.logo2 || LOGO_PADRAO}" class="team-logo"><span class="team-label">${j.time2}</span></div>
+                        <div class="team-box"><img src="${j.logo2 || LOGO_PADRAO}" class="team-logo" onerror="this.src='${LOGO_PADRAO}'"><span class="team-label">${j.time2}</span></div>
                     </div>
                     <div style="text-align:center; margin-top:10px; font-size:11px; font-weight:bold; color:${corStatus};">${txtStatus}</div>
                 </div>
@@ -362,7 +407,7 @@
         container.innerHTML = html;
     }
 
-    window.abrirFormularioAposta = function(idJogo) {
+    function abrirFormularioAposta(idJogo) {
         jogoSelecionadoParaAposta = jogosAtivosGlobais.find(j => j.id === idJogo);
         if(!jogoSelecionadoParaAposta) return;
 
@@ -377,7 +422,7 @@
         document.getElementById("imgLogo2").src = jogoSelecionadoParaAposta.logo2 || LOGO_PADRAO;
     }
 
-    window.voltarListaJogos = function() {
+    function voltarListaJogos() {
         document.getElementById("listaJogosParaApostar").style.display = "block";
         document.getElementById("formApostaContainer").style.display = "none";
         document.getElementById("areaRecibo").style.display = "none";
@@ -385,7 +430,7 @@
         jogoSelecionadoParaAposta = null;
     }
 
-    window.salvarAposta = async function(e) {
+    async function salvarAposta(e) {
         e.preventDefault();
         if (!jogoSelecionadoParaAposta) return alert("Erro: Jogo não selecionado.");
         
@@ -399,7 +444,6 @@
         const gols2 = document.getElementById("golsTime2").value;
 
         try {
-            // Salva o Palpite no Firebase aprovado automaticamente
             await addDoc(collection(db, "apostas_bolao"), {
                 nome: nome, 
                 whatsapp: whats,
@@ -414,7 +458,6 @@
                 data: serverTimestamp()
             });
             
-            // Exibe recibo de sucesso direto
             document.getElementById("formApostaContainer").style.display = "none";
             document.getElementById("areaRecibo").style.display = "block";
             document.getElementById("codigoReciboVisual").innerText = `#${codigoRecibo}`;
@@ -452,7 +495,7 @@
         if(valAdmin) selAdmin.value = valAdmin;
     }
 
-    window.carregarTransparencia = function() {
+    function carregarTransparencia() {
         const jogoId = document.getElementById("selectJogoTransparencia").value;
         const tbody = document.getElementById("tabelaPublicaApostas");
         const apostasEl = document.getElementById("publicoTotalApostas");
@@ -479,7 +522,7 @@
         apostasEl.innerText = validadas;
     }
 
-    window.consultarMinhaAposta = function(e) {
+    function consultarMinhaAposta(e) {
         e.preventDefault();
         const inputValor = document.getElementById("inputConsulta").value.trim();
         const divResultado = document.getElementById("resultadoConsulta");
@@ -515,9 +558,79 @@
     }
 
     /* =======================================
+       TABELAS E CONFRONTOS
+    ======================================= */
+    async function carregarTabelaCompeticao(ligaId) {
+        const container = document.getElementById("conteudoTabelaConfrontos");
+        container.innerHTML = '<p style="text-align:center;">Carregando informações...</p>';
+
+        // Série A (71) -> Exibe a tabela oficial de 2026
+        if (ligaId === "71") {
+            renderizarTabelaHTML(tabelaSerieA2026, container);
+            return;
+        }
+
+        // Outras ligas -> Tenta buscar via API
+        try {
+            const res = await fetch(`https://v3.football.api-sports.io/standings?league=${ligaId}&season=2026`, {
+                headers: { "x-apisports-key": CHAVE_API_SPORTS }
+            });
+            const data = await res.json();
+
+            if (data.response && data.response.length > 0 && data.response[0].league?.standings?.[0]) {
+                renderizarTabelaHTML(data.response[0].league.standings[0], container);
+            } else {
+                container.innerHTML = '<p style="text-align:center; font-size:12px;">Tabela indisponível no momento.</p>';
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="text-align:center; color:var(--primary);">Erro ao carregar a tabela.</p>';
+        }
+    }
+
+    function renderizarTabelaHTML(tabela, container) {
+        let html = `
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Clube</th>
+                            <th>P</th>
+                            <th>J</th>
+                            <th>V</th>
+                            <th>E</th>
+                            <th>D</th>
+                            <th>SG</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
+        tabela.forEach(item => {
+            html += `
+                <tr>
+                    <td style="font-weight:bold; color:var(--info);">${item.rank}º</td>
+                    <td style="display:flex; align-items:center; gap:6px; color:#fff;">
+                        <img src="${item.team.logo}" width="18" height="18" onerror="this.src='${LOGO_PADRAO}'"> ${item.team.name}
+                    </td>
+                    <td style="font-weight:bold; color:var(--success);">${item.points}</td>
+                    <td>${item.all.played}</td>
+                    <td>${item.all.win}</td>
+                    <td>${item.all.draw}</td>
+                    <td>${item.all.lose}</td>
+                    <td>${item.goalsDiff}</td>
+                </tr>
+            `;
+        });
+
+        html += `</tbody></table></div>`;
+        container.innerHTML = html;
+    }
+
+    /* =======================================
        ADMIN - BANCA
     ======================================= */
-    window.autenticar = function() {
+    function autenticar() {
         if (document.getElementById("senhaAdminInput").value === SENHA_BANCA) {
             document.getElementById("loginAdmin").style.display = "none";
             document.getElementById("painelGerenciador").style.display = "block";
@@ -528,36 +641,48 @@
         }
     }
 
-    window.sairAdmin = function() {
+    function sairAdmin() {
         document.getElementById("painelGerenciador").style.display = "none";
         document.getElementById("loginAdmin").style.display = "block";
         document.getElementById("senhaAdminInput").value = "";
     }
 
-    let jogosAPI = [];
-    window.buscarJogosDaAPI = async function() {
+    async function buscarJogosDaAPI() {
         const btn = document.getElementById("btnBuscarJogos");
         btn.innerText = "Buscando...";
         const dataHoje = new Date().toISOString().split('T')[0];
         try {
             const response = await fetch(`https://v3.football.api-sports.io/fixtures?date=${dataHoje}&timezone=America/Belem`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
             const result = await response.json();
-            jogosAPI = result.response;
-            if (!jogosAPI.length) return alert("Nenhum jogo!");
+            jogosAPI = result.response || [];
+            if (!jogosAPI.length) return alert("Nenhum jogo encontrado para hoje!");
 
-            const select = document.getElementById("selectJogosAPI");
-            select.innerHTML = '<option value="">-- Escolha o Jogo --</option>';
-            jogosAPI.forEach((jogo, index) => {
-                select.innerHTML += `<option value="${index}">${jogo.league.name}: ${jogo.teams.home.name} x ${jogo.teams.away.name}</option>`;
-            });
-            select.style.display = "block";
-            btn.innerText = `✅ Jogos Carregados`;
+            document.getElementById("inputBuscaAPI").style.display = "block";
+            document.getElementById("selectJogosAPI").style.display = "block";
+            filtrarJogosAPI();
+            btn.innerText = `✅ ${jogosAPI.length} Jogos Carregados`;
         } catch (error) {
             alert("Erro ao buscar jogos."); btn.innerText = "⬇️ Buscar Jogos da API";
         }
     }
 
-    window.selecionarJogoAPI = function(index) {
+    function filtrarJogosAPI() {
+        const termo = document.getElementById("inputBuscaAPI").value.toLowerCase();
+        const select = document.getElementById("selectJogosAPI");
+        select.innerHTML = '<option value="">-- Escolha o Jogo --</option>';
+        
+        jogosAPI.forEach((jogo, index) => {
+            const home = (jogo.teams.home.name || "").toLowerCase();
+            const away = (jogo.teams.away.name || "").toLowerCase();
+            const liga = (jogo.league.name || "").toLowerCase();
+            
+            if (home.includes(termo) || away.includes(termo) || liga.includes(termo)) {
+                select.innerHTML += `<option value="${index}">${jogo.league.name}: ${jogo.teams.home.name} x ${jogo.teams.away.name}</option>`;
+            }
+        });
+    }
+
+    function selecionarJogoAPI(index) {
         if (index === "") return;
         const j = jogosAPI[index];
         document.getElementById("adminCampeonato").value = j.league.name;
@@ -566,7 +691,7 @@
         tempApiData = { logo1: j.teams.home.logo, logo2: j.teams.away.logo, fixtureId: j.fixture.id, dataInicio: j.fixture.date };
     }
 
-    window.salvarNovoJogo = async function() {
+    async function salvarNovoJogo() {
         const camp = document.getElementById("adminCampeonato").value;
         const t1 = document.getElementById("adminTime1").value;
         const t2 = document.getElementById("adminTime2").value;
@@ -583,6 +708,7 @@
             document.getElementById("adminCampeonato").value = "";
             document.getElementById("adminTime1").value = "";
             document.getElementById("adminTime2").value = "";
+            document.getElementById("inputBuscaAPI").value = "";
             document.getElementById("selectJogosAPI").style.display = "none";
             tempApiData = {};
         } catch(e) { alert("Erro ao criar bolão."); }
@@ -614,7 +740,7 @@
         container.innerHTML = html;
     }
 
-    window.sincronizarResultado = async function(docId, fixtureId) {
+    async function sincronizarResultado(docId, fixtureId) {
         try {
             const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${fixtureId}`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
             const result = await res.json();
@@ -630,13 +756,13 @@
         } catch (e) { alert("Erro ao sincronizar."); }
     }
 
-    window.excluirJogo = async function(docId) {
+    async function excluirJogo(docId) {
         if(confirm("Tem certeza que deseja apagar o jogo?")) {
             await deleteDoc(doc(db, "jogos_ativos", docId));
         }
     }
 
-    window.atualizarTabelaAdmin = function() {
+    function atualizarTabelaAdmin() {
         const filtroJogoId = document.getElementById("selectJogoAdminTabela").value;
         const tbody = document.getElementById("tabelaApostas");
         tbody.innerHTML = "";
@@ -675,37 +801,57 @@
         document.getElementById("totalConfirmadas").innerText = confirmadas;
     }
 
-    window.excluirAposta = async function(id) {
+    async function excluirAposta(id) {
         if(confirm("Deseja remover este palpite?")) {
             await deleteDoc(doc(db, "apostas_bolao", id));
         }
     }
 
-    // JOGOS DO DIA (API)
-    window.carregarJogosAPI = async function() {
+    async function carregarJogosAPI() {
         const container = document.getElementById("lista-jogos-semana");
         container.innerHTML = '<p style="text-align:center;">Buscando partidas...</p>';
         const hoje = new Date().toISOString().split('T')[0];
         try {
             const res = await fetch(`https://v3.football.api-sports.io/fixtures?date=${hoje}&timezone=America/Belem`, { headers: { "x-apisports-key": CHAVE_API_SPORTS }});
             const data = await res.json();
-            const ligasPermitidas = [71, 73, 13, 140]; // Brasileirao, Copa BR, Liberta, LaLiga
-            const filtrados = data.response.filter(item => ligasPermitidas.includes(item.league.id));
             
-            if(filtrados.length === 0) { container.innerHTML = `<p style="text-align:center; font-size:12px;">Nenhum jogo das ligas principais hoje.</p>`; return; }
+            const ligasPermitidas = [71, 72, 73, 11, 13, 2, 3, 140, 39, 135, 78];
+            const filtrados = (data.response || []).filter(item => ligasPermitidas.includes(item.league.id));
+            
+            if(filtrados.length === 0) { container.innerHTML = `<p style="text-align:center; font-size:12px;">Nenhum jogo das principais ligas hoje.</p>`; return; }
             
             container.innerHTML = filtrados.map(j => `
                 <div class="jogo-card-item">
                     <div class="jogo-card-header"><strong>${j.league.name}</strong> <span>${new Date(j.fixture.date).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</span></div>
                     <div class="jogo-placar-body">
-                        <div style="flex:1; text-align:center;"><img src="${j.teams.home.logo}" width="24"><br><span style="font-size:10px; color:#fff;">${j.teams.home.name}</span></div>
+                        <div style="flex:1; text-align:center;"><img src="${j.teams.home.logo}" width="24" onerror="this.src='${LOGO_PADRAO}'"><br><span style="font-size:10px; color:#fff;">${j.teams.home.name}</span></div>
                         <div style="font-size:14px; font-weight:bold;">${j.goals.home ?? '-'} x ${j.goals.away ?? '-'}</div>
-                        <div style="flex:1; text-align:center;"><img src="${j.teams.away.logo}" width="24"><br><span style="font-size:10px; color:#fff;">${j.teams.away.name}</span></div>
+                        <div style="flex:1; text-align:center;"><img src="${j.teams.away.logo}" width="24" onerror="this.src='${LOGO_PADRAO}'"><br><span style="font-size:10px; color:#fff;">${j.teams.away.name}</span></div>
                     </div>
                 </div>
             `).join("");
         } catch (e) { container.innerHTML = `<p style="text-align:center; color:var(--primary);">Erro na API.</p>`; }
     }
+
+    // EXPORTAÇÃO DAS FUNÇÕES
+    window.mudarAba = mudarAba;
+    window.abrirFormularioAposta = abrirFormularioAposta;
+    window.voltarListaJogos = voltarListaJogos;
+    window.salvarAposta = salvarAposta;
+    window.carregarTransparencia = carregarTransparencia;
+    window.consultarMinhaAposta = consultarMinhaAposta;
+    window.carregarTabelaCompeticao = carregarTabelaCompeticao;
+    window.autenticar = autenticar;
+    window.sairAdmin = sairAdmin;
+    window.buscarJogosDaAPI = buscarJogosDaAPI;
+    window.filtrarJogosAPI = filtrarJogosAPI;
+    window.selecionarJogoAPI = selecionarJogoAPI;
+    window.salvarNovoJogo = salvarNovoJogo;
+    window.sincronizarResultado = sincronizarResultado;
+    window.excluirJogo = excluirJogo;
+    window.atualizarTabelaAdmin = atualizarTabelaAdmin;
+    window.excluirAposta = excluirAposta;
+    window.carregarJogosAPI = carregarJogosAPI;
 </script>
 </body>
 </html>
