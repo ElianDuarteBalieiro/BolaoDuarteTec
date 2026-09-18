@@ -65,7 +65,6 @@
         .btn-outline { background: transparent; border: 1px solid #52525b; color: var(--text-muted); padding: 10px; border-radius: var(--radius-input); cursor: pointer; width: 100%; font-weight: 600; }
         
         .pix-container { background-color: #121214; border: 1px dashed rgba(0, 255, 102, 0.4); border-radius: var(--radius-padrao); padding: 14px; text-align: center; margin-bottom: 16px; }
-        .pix-key { font-weight: 500; font-size: 12px; color: var(--success); margin: 8px 0; background: #18181b; padding: 12px; border-radius: 6px; user-select: all; word-break: break-all; }
 
         .jogo-ativo-card { background: var(--input-bg); border: 1px solid var(--info); border-radius: var(--radius-padrao); padding: 14px; margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
         .jogo-ativo-card:hover { background: #2a2a2e; }
@@ -109,19 +108,13 @@
         <div class="header">
             <img src="logo-duarte-tec.png" alt="Duarte Tec" class="app-logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg';">
             <h1>Bolão DuarteTec</h1>
-            <p class="cota-text">Cotas: R$ 5,00 ou R$ 10,00</p>
-            <span class="regra-minuscula">90% ao vencedor, 10% de taxa da banca.</span>
-        </div>
-
-        <div id="bannerAcumulado" style="display: none; background: linear-gradient(45deg, #e50914, #ffcc00); padding: 12px; border-radius: 10px; text-align: center; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);">
-            <h3 style="margin: 0; color: #000; font-size: 14px; text-transform: uppercase; font-weight: 800;">🔥 Prêmio Acumulado!</h3>
-            <h2 id="valorAcumuladoTexto" style="margin: 4px 0 0; color: #000; font-size: 24px; font-weight: 900;">R$ 0,00</h2>
-            <p style="margin: 2px 0 0; font-size: 11px; color: #000; font-weight: 600;">O prêmio do último jogo acumulou para a próxima rodada!</p>
+            <p class="cota-text">🎁 RODADA GRATUITA!</p>
+            <span class="regra-minuscula">Faça seu palpite 100% grátis e participe!</span>
         </div>
 
         <!-- LISTA DE JOGOS DISPONÍVEIS -->
         <div id="listaJogosParaApostar">
-            <h3 style="font-size: 13px; text-align: center; color: var(--text-muted);">Selecione um jogo para apostar:</h3>
+            <h3 style="font-size: 13px; text-align: center; color: var(--text-muted);">Selecione um jogo para palpitar:</h3>
             <div id="containerJogosAtivos" style="margin-top: 10px;">
                 <p style="text-align:center;">Carregando jogos...</p>
             </div>
@@ -142,14 +135,6 @@
                     <label>Seu WhatsApp (apenas números com DDD):</label>
                     <input type="tel" id="whatsApostador" required placeholder="Ex: 91980000000">
                 </div>
-                
-                <div class="form-group">
-                    <label>Valor da Aposta:</label>
-                    <select id="valorAposta" required>
-                        <option value="5">R$ 5,00</option>
-                        <option value="10" selected>R$ 10,00</option>
-                    </select>
-                </div>
 
                 <label>Seu Palpite:</label>
                 <div class="placar-container">
@@ -166,26 +151,17 @@
                     </div>
                 </div>
 
-                <button type="submit" id="btnSubmitAposta" class="btn-main">Gerar Aposta e Pagar</button>
+                <button type="submit" id="btnSubmitAposta" class="btn-main" style="background-color: var(--success); color: #000;">Confirmar Palpite Grátis 🚀</button>
             </form>
         </div>
 
-        <!-- ÁREA DO RECIBO COM PIX ESTÁTICO -->
+        <!-- ÁREA DO RECIBO / CONFIRMAÇÃO -->
         <div id="areaRecibo" style="display:none; text-align:center; margin-top:10px;">
-            <h3 style="color:var(--warning);" id="statusReciboTitulo">⏳ Aguardando Pagamento</h3>
-            <h2 style="font-size:28px; margin: 10px 0;" id="codigoReciboVisual">#000000</h2>
+            <h3 style="color:var(--success);" id="statusReciboTitulo">🎉 Palpite Registrado com Sucesso!</h3>
+            <p style="font-size:12px; color:var(--text-muted);">Guarde o número do seu recibo abaixo:</p>
+            <h2 style="font-size:28px; margin: 10px 0; color:var(--info);" id="codigoReciboVisual">#000000</h2>
             
-            <div class="pix-container" id="containerPixPagamento">
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Copie a chave abaixo, pague no seu banco e <b>envie o comprovante no WhatsApp</b>. Esta tela atualizará sozinha quando a banca confirmar!</p>
-                <img id="imgQrCode" src="" style="width:180px; height:180px; margin:0 auto 10px; display:none; border-radius:8px;">
-                <label style="color: #fff; margin-bottom: 2px; font-size: 11px;">Pix Copia e Cola:</label>
-                <div class="pix-key" id="chavePixGerada">Carregando chave...</div>
-                <button type="button" class="btn-secundary" onclick="copiarPixGerado()" style="width:100%;">Copiar PIX</button>
-            </div>
-
-            <a id="linkZap" href="#" target="_blank" class="btn-whatsapp" style="display:none;">📱 Enviar Comprovante no WhatsApp</a>
-            
-            <button onclick="voltarListaJogos()" class="btn-outline" style="margin-top:12px;">Fazer nova aposta / Voltar</button>
+            <button onclick="voltarListaJogos()" class="btn-outline" style="margin-top:12px;">Fazer outro palpite / Voltar</button>
         </div>
     </div>
 
@@ -193,7 +169,7 @@
     <div id="areaTransparencia" class="card" style="display: none;">
         <div class="header">
             <h1>Transparência 📊</h1>
-            <h2>Prêmios e palpites oficiais</h2>
+            <h2>Palpites Oficiais Cadastrados</h2>
         </div>
 
         <select id="selectJogoTransparencia" onchange="carregarTransparencia()" style="margin-bottom: 15px;">
@@ -201,8 +177,8 @@
         </select>
 
         <div class="grid-stats">
-            <div class="stat-card"><h4>Prêmio Atual (90%)</h4><p id="publicoPremio">R$ 0,00</p></div>
-            <div class="stat-card"><h4>Apostas Válidas</h4><p id="publicoTotalApostas">0</p></div>
+            <div class="stat-card"><h4>Palpites Válidos</h4><p id="publicoTotalApostas">0</p></div>
+            <div class="stat-card"><h4>Modalidade</h4><p style="color:var(--success);">Gratuito</p></div>
         </div>
 
         <div class="table-wrapper">
@@ -217,7 +193,7 @@
 
     <!-- 3. CONSULTAR -->
     <div id="areaConsultar" class="card" style="display: none;">
-        <div class="header"><h1 style="color: var(--warning);">Consultar Aposta</h1></div>
+        <div class="header"><h1 style="color: var(--warning);">Consultar Palpite</h1></div>
         <form onsubmit="consultarMinhaAposta(event)">
             <div class="form-group">
                 <label>WhatsApp ou Código do Recibo:</label>
@@ -272,14 +248,12 @@
 
             <!-- ESTATÍSTICAS E TABELA GERAL -->
             <select id="selectJogoAdminTabela" onchange="atualizarTabelaAdmin()" style="margin-bottom: 10px;">
-                <option value="TODOS">Ver Todas as Apostas</option>
+                <option value="TODOS">Ver Todos os Palpites</option>
             </select>
 
             <div class="grid-stats">
-                <div class="stat-card"><h4>Validadas</h4><p id="totalConfirmadas">0</p></div>
-                <div class="stat-card"><h4>Em Caixa</h4><p id="totalArrecadado">R$ 0,00</p></div>
-                <div class="stat-card"><h4>Prêmio (90%)</h4><p id="totalPremio" style="color: #fff;">R$ 0,00</p></div>
-                <div class="stat-card"><h4>Lucro (10%)</h4><p id="lucroBanca" style="color:var(--info);">R$ 0,00</p></div>
+                <div class="stat-card"><h4>Palpites Confirmados</h4><p id="totalConfirmadas">0</p></div>
+                <div class="stat-card"><h4>Modo</h4><p style="color:var(--info);">Gratuito</p></div>
             </div>
 
             <div class="table-wrapper">
@@ -312,34 +286,11 @@
     const SENHA_BANCA = "chefe123";
     const LOGO_PADRAO = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg";
     const CHAVE_API_SPORTS = "6a693da098de4ef796827ef7c7ce87d2";
-    const TELEFONE_ADMIN = "5591985560545";
-    
-    // CHAVES PIX DO CHEFE
-    const PIX_COPIA_E_COLA = "00020101021126580014br.gov.bcb.pix013616d7166d-3c78-41a9-9a29-51bef4f01ffe5204000053039865802BR5921Elian Duarte Balieiro6009SAO PAULO61080131010062070503***63044CFD";
-    const CHAVE_PIX_TEXTO = "16d7166d-3c78-41a9-9a29-51bef4f01ffe";
 
     let apostasGlobais = [];
     let jogosAtivosGlobais = [];
     let jogoSelecionadoParaAposta = null; 
     let tempApiData = {};
-    let pollingInterval = null; 
-
-    // 1. ESCUTAR ACUMULADO GLOBAL
-    const docAcumuladoRef = doc(db, "sistema", "config");
-    onSnapshot(docAcumuladoRef, (docSnap) => {
-        const banner = document.getElementById("bannerAcumulado");
-        if (docSnap.exists()) {
-            const valor = docSnap.data().valorAcumuladoGlobais || 0;
-            if (valor > 0) {
-                banner.style.display = "block";
-                document.getElementById("valorAcumuladoTexto").innerText = `R$ ${valor.toFixed(2).replace('.', ',')}`;
-            } else {
-                banner.style.display = "none";
-            }
-        } else {
-            banner.style.display = "none";
-        }
-    });
 
     // ESCUTAR JOGOS ATIVOS
     onSnapshot(collection(db, "jogos_ativos"), (snapshot) => {
@@ -386,17 +337,15 @@
     function renderizarJogosApostador() {
         const container = document.getElementById("containerJogosAtivos");
         if(jogosAtivosGlobais.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px;">Nenhum bolão aberto no momento.</p>`;
+            container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px;">Nenhum jogo aberto no momento.</p>`;
             return;
         }
 
         let html = "";
         jogosAtivosGlobais.forEach(j => {
-            if(j.statusJogo === "Acumulado") return;
-
             const isFechado = j.statusJogo === "FT" || j.statusJogo === "Finished" || (j.dataInicio && new Date() >= new Date(j.dataInicio));
             const corStatus = isFechado ? "var(--primary)" : "var(--success)";
-            const txtStatus = isFechado ? "Apostas Fechadas" : "🟢 Apostar Agora";
+            const txtStatus = isFechado ? "Palpites Encerrados" : "🟢 Palpitar Agora";
 
             html += `
                 <div class="jogo-ativo-card" onclick="${isFechado ? '' : `abrirFormularioAposta('${j.id}')`}" style="${isFechado ? 'opacity: 0.6; cursor:not-allowed;' : ''}">
@@ -429,16 +378,11 @@
     }
 
     window.voltarListaJogos = function() {
-        if (pollingInterval) clearInterval(pollingInterval); 
         document.getElementById("listaJogosParaApostar").style.display = "block";
         document.getElementById("formApostaContainer").style.display = "none";
         document.getElementById("areaRecibo").style.display = "none";
         document.getElementById("formAposta").reset();
         jogoSelecionadoParaAposta = null;
-    }
-
-    window.copiarPixGerado = function() {
-        navigator.clipboard.writeText(document.getElementById("chavePixGerada").innerText).then(() => alert("Pix Copia e Cola copiado! Cole na área PIX do seu banco."));
     }
 
     window.salvarAposta = async function(e) {
@@ -451,74 +395,35 @@
         let codigoRecibo = Math.floor(100000 + Math.random() * 900000);
         const nome = document.getElementById("nomeApostador").value;
         const whats = document.getElementById("whatsApostador").value;
-        const valorAposta = Number(document.getElementById("valorAposta").value);
         const gols1 = document.getElementById("golsTime1").value;
         const gols2 = document.getElementById("golsTime2").value;
 
         try {
-            // Salva a Aposta no Firebase
-            const docRef = await addDoc(collection(db, "apostas_bolao"), {
-                nome: nome, whatsapp: whats,
-                time1: gols1, time2: gols2,
+            // Salva o Palpite no Firebase aprovado automaticamente
+            await addDoc(collection(db, "apostas_bolao"), {
+                nome: nome, 
+                whatsapp: whats,
+                time1: gols1, 
+                time2: gols2,
                 nomeTime1: jogoSelecionadoParaAposta.time1, 
                 nomeTime2: jogoSelecionadoParaAposta.time2, 
                 jogoId: jogoSelecionadoParaAposta.id,
-                valor: valorAposta,
-                status: "Pendente", 
+                valor: 0,
+                status: "Confirmado", 
                 recibo: codigoRecibo, 
                 data: serverTimestamp()
             });
             
-            // Ajusta a Interface do Recibo
+            // Exibe recibo de sucesso direto
             document.getElementById("formApostaContainer").style.display = "none";
             document.getElementById("areaRecibo").style.display = "block";
             document.getElementById("codigoReciboVisual").innerText = `#${codigoRecibo}`;
-            
-            // Configura o PIX Estático (Copia e Cola + Imagem QR Code automatica)
-            document.getElementById("containerPixPagamento").style.display = "block";
-            document.getElementById("chavePixGerada").innerText = PIX_COPIA_E_COLA;
-            
-            const img = document.getElementById("imgQrCode");
-            img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(PIX_COPIA_E_COLA)}`;
-            img.style.display = "block";
-            
-            document.getElementById("statusReciboTitulo").innerText = "⏳ Aguardando Pagamento";
-            document.getElementById("statusReciboTitulo").style.color = "var(--warning)";
-
-            // Botão do WhatsApp para enviar o comprovante
-            document.getElementById("linkZap").style.display = "block";
-            const msgZap = encodeURIComponent(`Olá chefe! Fiz uma aposta.\n👤 Nome: ${nome}\n📱 Whats: ${whats}\n🔢 Recibo: #${codigoRecibo}\n💰 Valor: R$ ${valorAposta},00\n⚽ Palpite: ${jogoSelecionadoParaAposta.time1} ${gols1} x ${gols2} ${jogoSelecionadoParaAposta.time2}\n\nSegue o comprovante do PIX:`);
-            document.getElementById("linkZap").href = `https://api.whatsapp.com/send?phone=${TELEFONE_ADMIN}&text=${msgZap}`;
-            
-            // Fica checando o Firebase pra ver se você clicou no botão "V" lá no painel
-            verificarStatusPagamentoManual(docRef.id);
 
         } catch (error) {
-            alert("Erro ao enviar aposta: " + error.message);
+            alert("Erro ao registrar palpite: " + error.message);
         } finally {
-            btnSubmit.innerText = "Gerar Aposta e Pagar"; btnSubmit.disabled = false;
+            btnSubmit.innerText = "Confirmar Palpite Grátis 🚀"; btnSubmit.disabled = false;
         }
-    }
-
-    // POLLING: Verifica se o Admin aprovou no painel da banca
-    window.verificarStatusPagamentoManual = async function(apostaIdFirebase) {
-        if (pollingInterval) clearInterval(pollingInterval);
-        
-        pollingInterval = setInterval(async () => {
-            try {
-                const docSnap = await getDoc(doc(db, "apostas_bolao", apostaIdFirebase));
-                if (docSnap.exists() && docSnap.data().status === "Confirmado") {
-                    clearInterval(pollingInterval);
-                    document.getElementById("statusReciboTitulo").innerText = "✅ Aposta Confirmada!";
-                    document.getElementById("statusReciboTitulo").style.color = "var(--success)";
-                    document.getElementById("containerPixPagamento").style.display = "none";
-                    document.getElementById("linkZap").style.display = "none";
-                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                }
-            } catch (erro) {
-                console.error("Erro ao checar pagamento", erro);
-            }
-        }, 5000); 
     }
 
     /* =======================================
@@ -529,10 +434,9 @@
         const selAdmin = document.getElementById("selectJogoAdminTabela");
         
         let htmlTransp = '<option value="">Selecione um jogo...</option>';
-        let htmlAdmin = '<option value="TODOS">Ver Todas as Apostas</option>';
+        let htmlAdmin = '<option value="TODOS">Ver Todos os Palpites</option>';
         
         jogosAtivosGlobais.forEach(j => {
-            if(j.statusJogo === "Acumulado") return; 
             const txt = `${j.time1} x ${j.time2}`;
             htmlTransp += `<option value="${j.id}">${txt}</option>`;
             htmlAdmin += `<option value="${j.id}">${txt}</option>`;
@@ -551,32 +455,28 @@
     window.carregarTransparencia = function() {
         const jogoId = document.getElementById("selectJogoTransparencia").value;
         const tbody = document.getElementById("tabelaPublicaApostas");
-        const premioEl = document.getElementById("publicoPremio");
         const apostasEl = document.getElementById("publicoTotalApostas");
 
         if (!jogoId) {
             tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Selecione um jogo acima.</td></tr>';
-            premioEl.innerText = "R$ 0,00"; apostasEl.innerText = "0";
+            apostasEl.innerText = "0";
             return;
         }
 
         let html = "";
         let validadas = 0;
-        let totalArrecadadoJogo = 0;
         
         apostasGlobais.forEach(a => {
             if (a.jogoId === jogoId && a.status === "Confirmado") {
                 validadas++;
-                totalArrecadadoJogo += (a.valor || 10);
                 html += `<tr><td style="font-size:12px; color:#fff;"><strong>${a.nome}</strong></td><td style="font-weight:bold; font-size:11px; color:var(--warning); text-align:center;">🔒 Oculto</td></tr>`;
             }
         });
 
-        if (validadas === 0) html = '<tr><td colspan="2" style="text-align:center; color:#aaa;">Nenhuma aposta confirmada.</td></tr>';
+        if (validadas === 0) html = '<tr><td colspan="2" style="text-align:center; color:#aaa;">Nenhum palpite registrado.</td></tr>';
         
         tbody.innerHTML = html;
         apostasEl.innerText = validadas;
-        premioEl.innerText = `R$ ${(totalArrecadadoJogo * 0.9).toFixed(2).replace('.', ',')}`; 
     }
 
     window.consultarMinhaAposta = function(e) {
@@ -588,12 +488,12 @@
         apostasGlobais.forEach(a => {
             if (a.whatsapp === inputValor || String(a.recibo) === inputValor) {
                 const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
-                let classeBadge = a.status === "Confirmado" ? "badge-confirmado" : (a.status === "Pendente" ? "badge-pendente" : "badge-cancelado");
-                let textoStatus = a.status;
+                let classeBadge = "badge-confirmado";
+                let textoStatus = "Confirmado";
                 
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && a.status === "Confirmado" && jogo.gols1Oficial !== undefined) {
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
                     if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) {
-                        classeBadge = "badge-vencedor"; textoStatus = "🏆 VENCEDOR!";
+                        classeBadge = "badge-vencedor"; textoStatus = "🏆 ACERTOU!";
                     }
                 }
                 
@@ -611,11 +511,11 @@
             }
         });
         
-        divResultado.innerHTML = htmlResultado === "" ? `<p style="color:var(--primary); text-align:center;">Nenhuma aposta encontrada.</p>` : htmlResultado;
+        divResultado.innerHTML = htmlResultado === "" ? `<p style="color:var(--primary); text-align:center;">Nenhum palpite encontrado.</p>` : htmlResultado;
     }
 
     /* =======================================
-       ADMIN - BANCA (COM ACUMULADO)
+       ADMIN - BANCA
     ======================================= */
     window.autenticar = function() {
         if (document.getElementById("senhaAdminInput").value === SENHA_BANCA) {
@@ -696,50 +596,22 @@
 
         let html = "";
         jogosAtivosGlobais.forEach(j => {
-            if(j.statusJogo === "Acumulado") return; 
-
             let placar = (j.gols1Oficial !== undefined) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
-            
-            let arrecadadoJogo = 0;
-            apostasGlobais.forEach(a => {
-                if (a.jogoId === j.id && a.status === "Confirmado") arrecadadoJogo += (a.valor || 10);
-            });
-            let premioJogo = arrecadadoJogo * 0.9;
 
             html += `
                 <div style="background:var(--input-bg); padding:12px; border-radius:8px; border:1px solid #3f3f46; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
                     <div style="font-size:12px;">
                         <strong style="color:var(--info);">${j.campeonato}</strong><br>
                         ${j.time1} <b>${placar}</b> ${j.time2}
-                        <div style="color:var(--success); font-size:10px; margin-top:4px;">Prêmio: R$ ${premioJogo.toFixed(2)}</div>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
-                        ${j.fixtureId ? `<button onclick="sincronizarResultado('${j.id}', ${j.fixtureId})" style="background:var(--success); color:#000; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer;">🔄 Sincronizar Placar</button>` : ''}
-                        <button onclick="acumularPremioJogo('${j.id}', ${premioJogo})" style="background:var(--warning); color:#000; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer; font-weight:bold;">🔥 Acumular Prêmio</button>
+                        ${j.fixtureId ? `<button onclick="sincronizarResultado('${j.id}',${j.fixtureId})" style="background:var(--success); color:#000; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer;">🔄 Sincronizar Placar</button>` : ''}
                         <button onclick="excluirJogo('${j.id}')" style="background:var(--primary); color:#fff; border:none; padding:6px; border-radius:4px; font-size:10px; cursor:pointer;">🗑️ Excluir Jogo</button>
                     </div>
                 </div>
             `;
         });
         container.innerHTML = html;
-    }
-
-    window.acumularPremioJogo = async function(jogoId, valorPremioDoJogo) {
-        if(valorPremioDoJogo <= 0) return alert("Não há apostas suficientes (ou nenhum prêmio) para acumular neste jogo.");
-        
-        if(confirm(`Tem certeza que ninguém acertou? O prêmio de R$ ${valorPremioDoJogo.toFixed(2)} irá para o Pote Global Acumulado!`)) {
-            try {
-                await setDoc(doc(db, "sistema", "config"), {
-                    valorAcumuladoGlobais: increment(valorPremioDoJogo)
-                }, { merge: true });
-                
-                await updateDoc(doc(db, "jogos_ativos", jogoId), { statusJogo: "Acumulado" });
-                
-                alert("Prêmio acumulado com sucesso! O banner de urgência já deve estar aparecendo para os clientes.");
-            } catch(e) {
-                alert("Erro ao acumular: " + e.message);
-            }
-        }
     }
 
     window.sincronizarResultado = async function(docId, fixtureId) {
@@ -759,7 +631,7 @@
     }
 
     window.excluirJogo = async function(docId) {
-        if(confirm("Tem certeza? Isso apaga o jogo (As apostas continuam no banco de dados mas sem referência visível).")) {
+        if(confirm("Tem certeza que deseja apagar o jogo?")) {
             await deleteDoc(doc(db, "jogos_ativos", docId));
         }
     }
@@ -770,50 +642,43 @@
         tbody.innerHTML = "";
         
         let confirmadas = 0, apostasExibidas = 0;
-        let arrecadado = 0; 
 
         apostasGlobais.forEach(a => {
             if (filtroJogoId === "TODOS" || a.jogoId === filtroJogoId) {
                 apostasExibidas++;
-                if (a.status === "Confirmado") {
-                    confirmadas++;
-                    arrecadado += (a.valor || 10); 
-                }
+                confirmadas++;
                 
                 const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
                 let ehVencedor = false;
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && a.status === "Confirmado" && jogo.gols1Oficial !== undefined) {
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
                     if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) ehVencedor = true;
                 }
 
-                let badge = ehVencedor ? "badge-vencedor" : (a.status === "Confirmado" ? "badge-confirmado" : (a.status === "Pendente" ? "badge-pendente" : "badge-cancelado"));
-                let txtStatus = ehVencedor ? "🏆 Venceu" : a.status;
+                let badge = ehVencedor ? "badge-vencedor" : "badge-confirmado";
+                let txtStatus = ehVencedor ? "🏆 Acertou" : "Válido";
                 let s1 = a.nomeTime1 ? a.nomeTime1.substring(0,3).toUpperCase() : 'T1';
                 let s2 = a.nomeTime2 ? a.nomeTime2.substring(0,3).toUpperCase() : 'T2';
-                let valorBadge = a.valor === 5 ? 'R$5' : 'R$10';
 
                 tbody.innerHTML += `<tr>
                     <td><strong style="color:#fff;font-size:11px;">${a.nome}</strong><br><span style="color:var(--text-muted);font-size:9px;">${a.whatsapp}</span></td>
-                    <td style="font-weight:bold;font-size:11px;">${s1} ${a.time1}x${a.time2} ${s2} <br><span style="color:var(--info); font-size:9px;">${valorBadge}</span></td>
+                    <td style="font-weight:bold;font-size:11px;">${s1} ${a.time1}x${a.time2} ${s2}</td>
                     <td><span class="badge ${badge}">${txtStatus}</span></td>
-                    <td style="white-space:nowrap;">
-                        <button style="background:rgba(0,255,102,0.2); color:var(--success); border:none; padding:4px 8px; border-radius:4px;" onclick="mudarStatus('${a.id}', 'Confirmado')">✓</button>
-                        <button style="background:rgba(229,9,20,0.2); color:var(--primary); border:none; padding:4px 8px; border-radius:4px;" onclick="mudarStatus('${a.id}', 'Cancelado')">✕</button>
+                    <td>
+                        <button style="background:rgba(229,9,20,0.2); color:var(--primary); border:none; padding:4px 8px; border-radius:4px;" onclick="excluirAposta('${a.id}')">✕ Excluir</button>
                     </td>
                 </tr>`;
             }
         });
 
-        if(apostasExibidas === 0) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#888; font-size:11px;">Nenhuma aposta encontrada.</td></tr>`;
+        if(apostasExibidas === 0) tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:15px; color:#888; font-size:11px;">Nenhum palpite encontrado.</td></tr>`;
 
         document.getElementById("totalConfirmadas").innerText = confirmadas;
-        document.getElementById("totalArrecadado").innerText = `R$ ${arrecadado.toFixed(2).replace('.', ',')}`;
-        document.getElementById("totalPremio").innerText = `R$ ${(arrecadado * 0.9).toFixed(2).replace('.', ',')}`;
-        document.getElementById("lucroBanca").innerText = `R$ ${(arrecadado * 0.1).toFixed(2).replace('.', ',')}`;
     }
 
-    window.mudarStatus = async function(id, novoStatus) {
-        await updateDoc(doc(db, "apostas_bolao", id), { status: novoStatus });
+    window.excluirAposta = async function(id) {
+        if(confirm("Deseja remover este palpite?")) {
+            await deleteDoc(doc(db, "apostas_bolao", id));
+        }
     }
 
     // JOGOS DO DIA (API)
