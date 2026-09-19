@@ -544,7 +544,7 @@
                 corStatus = "var(--text-muted)";
             }
 
-            const placarExibido = (j.gols1Oficial !== undefined) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : 'X';
+            const placarExibido = (j.gols1Oficial != null) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : 'X';
 
             html += `
                 <div class="jogo-ativo-card" onclick="${isFechado ? '' : `abrirFormularioAposta('${j.id}')`}" style="${isFechado ? 'opacity: 0.7; cursor:not-allowed;' : ''}">
@@ -635,7 +635,7 @@
             const txt = `${j.time1} x ${j.time2}`;
             htmlTransp += `<option value="${j.id}">${txt}</option>`;
             htmlAdmin += `<option value="${j.id}">${txt}</option>`;
-            if (j.gols1Oficial !== undefined || j.statusJogo === "FT" || j.statusJogo === "Finished") {
+            if (j.gols1Oficial != null || j.statusJogo === "FT" || j.statusJogo === "Finished") {
                 htmlGanhadores += `<option value="${j.id}">${txt} (Encerrado)</option>`;
             }
         });
@@ -662,7 +662,7 @@
 
         jogosAtivosGlobais.forEach(jogo => {
             if (filtroJogoId === "TODOS" || filtroJogoId === jogo.id) {
-                if (jogo.gols1Oficial !== undefined) {
+                if (jogo.gols1Oficial != null) {
                     const placarOficial1 = parseInt(jogo.gols1Oficial);
                     const placarOficial2 = parseInt(jogo.gols2Oficial);
 
@@ -759,7 +759,7 @@
                 let classeBadge = "badge-confirmado";
                 let textoStatus = "Confirmado";
                 
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial != null) {
                     if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) {
                         classeBadge = "badge-vencedor"; textoStatus = "👑 CRAVOU O PLACAR!";
                     }
@@ -856,8 +856,8 @@
             dataInicio: j.fixture.date,
             statusJogo: j.fixture.status.short,
             tempoDecorrido: j.fixture.status.elapsed || null,
-            gols1Oficial: j.goals.home !== null ? j.goals.home : undefined,
-            gols2Oficial: j.goals.away !== null ? j.goals.away : undefined
+            gols1Oficial: j.goals.home ?? null,
+            gols2Oficial: j.goals.away ?? null
         };
     }
 
@@ -869,14 +869,17 @@
 
         try {
             await addDoc(collection(db, "jogos_ativos"), {
-                campeonato: camp, time1: t1, time2: t2,
-                logo1: tempApiData.logo1 || LOGO_PADRAO, logo2: tempApiData.logo2 || LOGO_PADRAO,
+                campeonato: camp, 
+                time1: t1, 
+                time2: t2,
+                logo1: tempApiData.logo1 || LOGO_PADRAO, 
+                logo2: tempApiData.logo2 || LOGO_PADRAO,
                 fixtureId: tempApiData.fixtureId || null, 
                 dataInicio: tempApiData.dataInicio || null,
                 statusJogo: tempApiData.statusJogo || "NS",
                 tempoDecorrido: tempApiData.tempoDecorrido || null,
-                gols1Oficial: tempApiData.gols1Oficial,
-                gols2Oficial: tempApiData.gols2Oficial,
+                gols1Oficial: tempApiData.gols1Oficial ?? null,
+                gols2Oficial: tempApiData.gols2Oficial ?? null,
                 criadoEm: serverTimestamp()
             });
             showToast("Bolão Criado com Sucesso!");
@@ -886,7 +889,10 @@
             document.getElementById("inputBuscaAPI").value = "";
             document.getElementById("selectJogosAPI").style.display = "none";
             tempApiData = {};
-        } catch(e) { showToast("Erro ao registrar bolão."); }
+        } catch(e) { 
+            console.error("Erro no Firestore:", e);
+            showToast("Erro ao registrar bolão."); 
+        }
     }
 
     function renderizarJogosAdmin() {
@@ -899,7 +905,7 @@
         jogosAtivosGlobais.forEach(j => {
             const st = j.statusJogo;
             const isLive = ["1H", "2H", "HT", "ET", "BT", "P", "LIVE"].includes(st);
-            const placar = (j.gols1Oficial !== undefined) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
+            const placar = (j.gols1Oficial != null) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
 
             let statusBadge = "";
             if (isLive) {
@@ -932,8 +938,8 @@
             if (result.response && result.response.length > 0) {
                 const d = result.response[0];
                 await updateDoc(doc(db, "jogos_ativos", docId), {
-                    gols1Oficial: d.goals.home !== null ? d.goals.home : 0,
-                    gols2Oficial: d.goals.away !== null ? d.goals.away : 0,
+                    gols1Oficial: d.goals.home ?? null,
+                    gols2Oficial: d.goals.away ?? null,
                     statusJogo: d.fixture.status.short,
                     tempoDecorrido: d.fixture.status.elapsed || null
                 });
@@ -963,7 +969,7 @@
                 
                 const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
                 let ehVencedor = false;
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial !== undefined) {
+                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial != null) {
                     if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) ehVencedor = true;
                 }
 
