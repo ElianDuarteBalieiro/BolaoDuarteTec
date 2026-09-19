@@ -351,7 +351,7 @@
 
         <div class="table-wrapper">
             <table>
-                <thead><tr><th>Apostador</th><th style="text-align: center;">Palpite</th></tr></thead>
+                <thead><tr><th>Apostador</th><th style="text-align: center;">Palpite do Bilhete</th></tr></thead>
                 <tbody id="tabelaPublicaApostas">
                     <tr><td colspan="2" style="text-align:center; color:var(--text-muted);">Selecione um jogo acima.</td></tr>
                 </tbody>
@@ -635,7 +635,7 @@
             const txt = `${j.time1} x ${j.time2}`;
             htmlTransp += `<option value="${j.id}">${txt}</option>`;
             htmlAdmin += `<option value="${j.id}">${txt}</option>`;
-            if (j.gols1Oficial != null || j.statusJogo === "FT" || j.statusJogo === "Finished") {
+            if (j.gols1Oficial != null) {
                 htmlGanhadores += `<option value="${j.id}">${txt} (Encerrado)</option>`;
             }
         });
@@ -656,21 +656,32 @@
     function carregarGanhadores() {
         const container = document.getElementById("listaGanhadoresContainer");
         const filtroJogoId = document.getElementById("selectJogoGanhadores").value;
-        
+
         let html = "";
         let totalGanhadores = 0;
 
         jogosAtivosGlobais.forEach(jogo => {
             if (filtroJogoId === "TODOS" || filtroJogoId === jogo.id) {
-                if (jogo.gols1Oficial != null) {
-                    const placarOficial1 = parseInt(jogo.gols1Oficial);
-                    const placarOficial2 = parseInt(jogo.gols2Oficial);
+                
+                // Verifica se existe placar oficial cadastrado
+                const temPlacar = jogo.gols1Oficial !== null && jogo.gols1Oficial !== undefined && jogo.gols1Oficial !== "";
 
-                    const ganhadoresDoJogo = apostasGlobais.filter(a => 
-                        a.jogoId === jogo.id && 
-                        parseInt(a.time1) === placarOficial1 && 
-                        parseInt(a.time2) === placarOficial2
-                    );
+                if (temPlacar) {
+                    // Transforma o placar oficial em número exato (remove zeros à esquerda e espaços)
+                    const placarOficial1 = parseInt(jogo.gols1Oficial, 10);
+                    const placarOficial2 = parseInt(jogo.gols2Oficial, 10);
+
+                    const ganhadoresDoJogo = apostasGlobais.filter(a => {
+                        // Transforma o palpite do apostador em número exato também
+                        const palpite1 = parseInt(a.time1, 10);
+                        const palpite2 = parseInt(a.time2, 10);
+                        
+                        // Confere se o jogo bate, se o placar é igual e se a aposta é válida
+                        const cravouPlacar = palpite1 === placarOficial1 && palpite2 === placarOficial2;
+                        const apostaConfirmada = a.status === "Confirmado";
+
+                        return a.jogoId === jogo.id && cravouPlacar && apostaConfirmada;
+                    });
 
                     if (ganhadoresDoJogo.length > 0) {
                         html += `
@@ -682,7 +693,6 @@
 
                         ganhadoresDoJogo.forEach(g => {
                             totalGanhadores++;
-                            
                             html += `
                                 <div class="winner-card">
                                     <span class="winner-crown">👑</span>
@@ -708,7 +718,7 @@
             container.innerHTML = `
                 <div style="text-align:center; padding:30px 10px;">
                     <div style="font-size:40px; margin-bottom:10px;">🎯</div>
-                    <h4 style="color:var(--text-muted); font-size:13px; font-weight:600;">Nenhum ganhador registrado para os resultados apurados até o momento.</h4>
+                    <h4 style="color:var(--text-muted); font-size:13px; font-weight:600;">Nenhum ganhador registrado para os resultados apurados.</h4>
                     <p style="font-size:11px; color:var(--text-muted); margin-top:4px;">Assim que um jogo for encerrado e você cravar o placar, seu nome aparecerá aqui!</p>
                 </div>
             `;
@@ -737,7 +747,13 @@
                 const partesNome = a.nome.trim().split(" ");
                 const nomeExibicao = partesNome.length > 1 ? `${partesNome[0]} ${partesNome[partesNome.length - 1][0]}.` : partesNome[0];
 
-                html += `<tr><td style="font-size:12px; color:#fff;"><strong>${nomeExibicao}</strong></td><td style="font-weight:bold; font-size:11px; color:var(--warning); text-align:center;">🔒 Oculto até o jogo</td></tr>`;
+                html += `
+                <tr>
+                    <td style="font-size:12px; color:#fff;"><strong>${nomeExibicao}</strong></td>
+                    <td style="font-weight:900; font-size:13px; color:var(--info); text-align:center;">
+                        ${a.time1} x ${a.time2}
+                    </td>
+                </tr>`;
             }
         });
 
@@ -759,9 +775,13 @@
                 let classeBadge = "badge-confirmado";
                 let textoStatus = "Confirmado";
                 
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial != null) {
-                    if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) {
+                const temPlacar = jogo ? (jogo.gols1Oficial !== null && jogo.gols1Oficial !== "") : false;
+                
+                if (jogo && temPlacar) {
+                    if (parseInt(a.time1, 10) === parseInt(jogo.gols1Oficial, 10) && parseInt(a.time2, 10) === parseInt(jogo.gols2Oficial, 10)) {
                         classeBadge = "badge-vencedor"; textoStatus = "👑 CRAVOU O PLACAR!";
+                    } else {
+                        classeBadge = "badge"; textoStatus = "Não ganhou";
                     }
                 }
                 
@@ -905,13 +925,13 @@
         jogosAtivosGlobais.forEach(j => {
             const st = j.statusJogo;
             const isLive = ["1H", "2H", "HT", "ET", "BT", "P", "LIVE"].includes(st);
-            const placar = (j.gols1Oficial != null) ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
+            const placar = (j.gols1Oficial != null && j.gols1Oficial !== "") ? `${j.gols1Oficial} x ${j.gols2Oficial}` : "vs";
 
             let statusBadge = "";
             if (isLive) {
                 const minText = st === "HT" ? "Intervalo" : (j.tempoDecorrido ? `${j.tempoDecorrido}'` : 'Ao Vivo');
                 statusBadge = `<br><span class="live-badge" style="font-size:10px;">🔴 AO VIVO (${minText})</span>`;
-            } else if (st === "FT" || st === "Finished") {
+            } else if (["FT", "Finished", "AET", "PEN"].includes(st)) {
                 statusBadge = `<br><span style="font-size:10px; color:var(--text-muted);">Encerrado</span>`;
             }
 
@@ -923,12 +943,35 @@
                     </div>
                     <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
                         ${j.fixtureId ? `<button onclick="sincronizarResultado('${j.id}',${j.fixtureId})" style="background:var(--success); color:#000; border:none; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:700; cursor:pointer;">🔄 Placar API</button>` : ''}
+                        <button onclick="definirPlacarManual('${j.id}')" style="background:var(--warning); color:#000; border:none; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:700; cursor:pointer;">✏️ Placar Manual</button>
                         <button onclick="excluirJogo('${j.id}')" style="background:rgba(239, 68, 68, 0.2); color:var(--primary); border:none; padding:6px 10px; border-radius:6px; font-size:10px; font-weight:700; cursor:pointer;">🗑️ Remover</button>
                     </div>
                 </div>
             `;
         });
         container.innerHTML = html;
+    }
+
+    async function definirPlacarManual(docId) {
+        const gols1 = prompt("Gols do TIME 1 (Mandante):");
+        if (gols1 === null) return;
+        const gols2 = prompt("Gols do TIME 2 (Visitante):");
+        if (gols2 === null) return;
+
+        if (gols1.trim() !== "" && gols2.trim() !== "") {
+            try {
+                await updateDoc(doc(db, "jogos_ativos", docId), {
+                    gols1Oficial: parseInt(gols1, 10),
+                    gols2Oficial: parseInt(gols2, 10),
+                    statusJogo: "FT" // Força o encerramento
+                });
+                showToast("Placar salvo! O pódio foi atualizado.");
+            } catch(e) { 
+                showToast("Erro ao definir placar."); 
+            }
+        } else {
+            showToast("Valores inválidos!");
+        }
     }
 
     async function sincronizarResultado(docId, fixtureId) {
@@ -969,8 +1012,13 @@
                 
                 const jogo = jogosAtivosGlobais.find(j => j.id === a.jogoId);
                 let ehVencedor = false;
-                if (jogo && (jogo.statusJogo === "FT" || jogo.statusJogo === "Finished") && jogo.gols1Oficial != null) {
-                    if (parseInt(a.time1) === parseInt(jogo.gols1Oficial) && parseInt(a.time2) === parseInt(jogo.gols2Oficial)) ehVencedor = true;
+                
+                const temPlacar = jogo ? (jogo.gols1Oficial !== null && jogo.gols1Oficial !== "") : false;
+                
+                if (jogo && temPlacar) {
+                    if (parseInt(a.time1, 10) === parseInt(jogo.gols1Oficial, 10) && parseInt(a.time2, 10) === parseInt(jogo.gols2Oficial, 10)) { 
+                        ehVencedor = true; 
+                    }
                 }
 
                 const badge = ehVencedor ? "badge-vencedor" : "badge-confirmado";
@@ -1062,6 +1110,7 @@
     window.selecionarJogoAPI = selecionarJogoAPI;
     window.salvarNovoJogo = salvarNovoJogo;
     window.sincronizarResultado = sincronizarResultado;
+    window.definirPlacarManual = definirPlacarManual;
     window.excluirJogo = excluirJogo;
     window.atualizarTabelaAdmin = atualizarTabelaAdmin;
     window.excluirAposta = excluirAposta;
