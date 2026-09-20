@@ -1095,6 +1095,54 @@
         } catch (e) { container.innerHTML = `<p style="text-align:center; color:var(--primary); font-size:12px;">Falha ao carregar dados.</p>`; }
     }
 
+    // --- ATUALIZAÇÃO AUTOMÁTICA SILENCIOSA (A CADA 1 MINUTO) --- //
+    async function sincronizarTudoAutomaticamente() {
+        // Só roda se a aba "Banca" estiver aberta na tela do Admin
+        if (document.getElementById("painelGerenciador").style.display !== "block") return;
+
+        // Pega apenas os jogos que vieram da API e que ainda NÃO foram encerrados
+        const jogosPendentes = jogosAtivosGlobais.filter(j => 
+            j.fixtureId && !["FT", "Finished", "AET", "PEN"].includes(j.statusJogo)
+        );
+
+        if (jogosPendentes.length === 0) return;
+        
+        for (const jogo of jogosPendentes) {
+            try {
+                const res = await fetch(`https://v3.football.api-sports.io/fixtures?id=${jogo.fixtureId}`, { 
+                    headers: { "x-apisports-key": CHAVE_API_SPORTS }
+                });
+                const result = await res.json();
+                
+                if (result.response && result.response.length > 0) {
+                    const d = result.response[0];
+                    
+                    // Só gasta leitura/escrita no Firebase se algo realmente mudou (Gol ou Tempo)
+                    if (jogo.gols1Oficial !== d.goals.home || 
+                        jogo.gols2Oficial !== d.goals.away || 
+                        jogo.statusJogo !== d.fixture.status.short ||
+                        jogo.tempoDecorrido !== d.fixture.status.elapsed) {
+                        
+                        await updateDoc(doc(db, "jogos_ativos", jogo.id), {
+                            gols1Oficial: d.goals.home ?? null,
+                            gols2Oficial: d.goals.away ?? null,
+                            statusJogo: d.fixture.status.short,
+                            tempoDecorrido: d.fixture.status.elapsed || null
+                        });
+                    }
+                }
+            } catch (e) { 
+                console.error("Erro na atualização automática da API:", e); 
+            }
+            
+            // Pausa de 1 segundo entre cada jogo para não bloquear a API Sports
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    }
+
+    // Inicia o motor para rodar a cada 60.000 milissegundos (1 minuto)
+    setInterval(sincronizarTudoAutomaticamente, 60000);
+
     // EXPORTAÇÃO GLOBAL
     window.mudarAba = mudarAba;
     window.abrirFormularioAposta = abrirFormularioAposta;
